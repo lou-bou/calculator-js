@@ -11,7 +11,7 @@ function multiply(x, y) {
 }
 
 function divide(x, y) {
-    return x / y;
+    return Number((x / y).toFixed(7));
 }
 
 function operate(operand1, operand2, operator) {
@@ -86,7 +86,7 @@ operators.forEach((op) => {
             next_operand = 2;
         } else if (selected != "") {
             if (selected == "0" && operator == "/") {
-                display.textContent = "No can do!";
+                display.textContent = "ERROR!";
                 clearInput();
                 next_operand = 1;
             } else {
