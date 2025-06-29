@@ -15,22 +15,21 @@ function divide(x, y) {
 }
 
 function operate(operand1, operand2, operator) {
+    operand1 = parseInt(operand1)
+    operand2 = parseInt(operand2)
+    
     switch (operator) {
         case "+":
-            add(operand1, operand2);
-            break;
+            return add(operand1, operand2);
 
         case "-":
-            subtract(operand1, operand2);
-            break;
+            return subtract(operand1, operand2);
 
         case "*":
-            multiply(operand1, operand2);
-            break;
+            return multiply(operand1, operand2);
 
         case "/":
-            divide(operand1, operand2);
-            break;
+            return divide(operand1, operand2);
     }
 }
 
@@ -42,25 +41,84 @@ function selectDigit(digit) {
 }
 
 function clearInput() {
+    selected = "";
+    operand1 = "";
+    operand2 = "";
+    operator = "";
+}
+
+function clearButton() {
     clear.addEventListener(("click"), () => {
-        selected = "";
+        clearInput();
         display.textContent = selected;
+        next_operand = 1;
     })
 }
 
-let operand1;
-let operand2;
-let operator;
-let counter = 0;
+let operand1 = "";
+let operand2 = "";
+let operator = "";
+let next_operand = 1;
+let op1_selected = false;
 
 const display = document.querySelector(".display");
 const digits = document.querySelectorAll(".digit");
-const operators = document.querySelectorAll(".operator");
+const operators = document.querySelectorAll(".operator"); // = not included
 const equal = document.querySelector("#equal");
 const clear = document.querySelector("#clear");
 let selected = "";
+let result;
 
 digits.forEach((digit) => {
-    selectDigit(digit);    
-    clearInput();
+    selectDigit(digit);
 });
+
+clearButton();
+
+operators.forEach((op) => {
+    op.addEventListener("click", () => {
+        if (selected != "" && op1_selected == false && next_operand == 1) {
+            operand1 = selected;
+            operator = op.textContent;
+            selected = "";
+            console.log(operand1);
+            console.log(operator);
+            next_operand = 2;
+        } else if (selected != "") {
+            if (selected == "0" && operator == "/") {
+                display.textContent = "No can do!";
+                clearInput();
+                next_operand = 1;
+            } else {
+                operand2 = selected;
+                selected = "";
+                operand1 = operate(operand1, operand2, operator);
+                display.textContent = operand1;
+                operator = op.textContent;
+                console.log(operand2);
+                console.log(operator);
+                console.log(operand1);
+                next_operand = 2;
+            }
+            
+        }
+    });
+});
+
+equal.addEventListener("click", () => {
+    if (next_operand == 2 && selected != "") {
+        if (selected == "0") {
+            display.textContent = "ERROR!";
+        } else {
+            operand2 = selected;
+            result = operate(operand1, operand2, operator);
+            display.textContent = result;
+            console.log(operand2);
+            console.log(result);
+        }
+        next_operand = 1;
+        clearInput();
+    }
+});
+
+
