@@ -34,6 +34,30 @@ function operate(operand1, operand2, operator) {
     }
 }
 
+function selectDigit(digit) {
+    digit.addEventListener(("click"), () => {
+        selected += digit.textContent;
+        display.textContent = selected;
+    });
+}
+
+function clearDisplay() {
+    clear.addEventListener(("click"), () => {
+        selected = "";
+        display.textContent = selected;
+    })
+}
+
 let operand1;
 let operand2;
 let operator;
+
+const display = document.querySelector(".display");
+const digits = document.querySelectorAll(".digit");
+const clear = document.querySelector("#clear");
+let selected = "";
+
+digits.forEach((digit) => {
+    selectDigit(digit);    
+    clearDisplay();
+});
