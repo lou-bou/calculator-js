@@ -41,7 +41,7 @@ function selectDigit(digit) {
     });
 }
 
-function clearDisplay() {
+function clearInput() {
     clear.addEventListener(("click"), () => {
         selected = "";
         display.textContent = selected;
@@ -51,13 +51,16 @@ function clearDisplay() {
 let operand1;
 let operand2;
 let operator;
+let counter = 0;
 
 const display = document.querySelector(".display");
 const digits = document.querySelectorAll(".digit");
+const operators = document.querySelectorAll(".operator");
+const equal = document.querySelector("#equal");
 const clear = document.querySelector("#clear");
 let selected = "";
 
 digits.forEach((digit) => {
     selectDigit(digit);    
-    clearDisplay();
+    clearInput();
 });
